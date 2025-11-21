@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyApi.Models;
 using MyApi.Services;
 using MyApi.Dtos;
-using System.Linq;
+using AutoMapper;
 
 namespace MyApi.Controllers
 {
@@ -11,14 +11,18 @@ namespace MyApi.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
-        public ProductController(IProductService productService)
+        private readonly IMapper _mapper;
+
+        public ProductController(IProductService productService,IMapper mapper)
         {
             _productService = productService;
+            _mapper=mapper;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductReadDto>>> GetAllProducts()
         {
+            /* start Before AutoMapper
             var products = await _productService.GetAllAsync();
 
             var productDtos = products.Select(p => new ProductReadDto
@@ -27,6 +31,10 @@ namespace MyApi.Controllers
                 Name = p.Name,
                 Price = p.Price
             });
+            end Before AutoMapper */
+            
+            var products = await _productService.GetAllAsync();
+            var productDtos=_mapper.Map<IEnumerable<ProductReadDto>>(products);
 
             return Ok(productDtos);
 
@@ -37,7 +45,7 @@ namespace MyApi.Controllers
         {
             var product = await _productService.GetByIdAsync(id);
             if (product == null) return NotFound();
-            return Ok(product);
+            return Ok(_mapper.Map<ProductReadDto>(product));
         }
 
         [HttpPost]
@@ -50,14 +58,16 @@ namespace MyApi.Controllers
 
             };
             var created = await _productService.CreateAsync(product);
-
-            var readDto = new ProductReadDto
+            
+            /*var readDto = new ProductReadDto
             {
                 Id = created.Id,
                 Name = created.Name,
                 Price = created.Price
 
-            };
+            };*/
+
+            var readDto = _mapper.Map<Product>(dto);
             return CreatedAtAction(nameof(CreateProduct), new { id = created.Id }, readDto);
         }
 

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyApi.Dtos
 {
-    public class ProductCreateDto
+    public class   ProductCreateDto
     {
         [Required]
         [StringLength(100)]

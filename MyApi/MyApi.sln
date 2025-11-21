@@ -4,7 +4,7 @@ VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyApi", "MyApi.csproj", "{3F58CBAC-68AB-4F63-EB4F-57CA16CF5716}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyApi.Tests", "MyApi.Tests\MyApi.Tests.csproj", "{326E8A2F-FF83-4525-BD51-C6DBCE24D525}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyApi.Tests", "..\MyApi.Tests\MyApi.Tests.csproj", "{326E8A2F-FF83-4525-BD51-C6DBCE24D525}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

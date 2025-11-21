@@ -5,6 +5,8 @@ using MyApi.Controllers;
 using MyApi.Dtos;
 using MyApi.Models;
 using MyApi.Services;
+using AutoMapper;
+using MyApi.Profiles;
 
 namespace MyApi.Tests.Controllers
 {
@@ -12,12 +14,35 @@ namespace MyApi.Tests.Controllers
     {
         private readonly Mock<IProductService> _serviceMock;
         private readonly ProductController _controller;
+        private readonly IMapper _mapper;
 
         public ProductControllerTests()
         {
-            _serviceMock = new Mock<IProductService>();
-            _controller = new ProductController(_serviceMock.Object);
+            var config = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile<ProductProfile>();
+        });
+
+        config.AssertConfigurationIsValid(); // helps detect errors
+
+        _mapper = config.CreateMapper();
+
         }
+
+        [Fact]
+    public void ProductCreateDto_Maps_To_Product()
+    {
+        var dto = new ProductCreateDto
+        {
+            Name = "Test Product",
+            Price = 10.99M
+        };
+
+        var product = _mapper.Map<Product>(dto);
+
+        Assert.Equal(dto.Name, product.Name);
+        Assert.Equal(dto.Price, product.Price);
+    }
 
         [Fact]
         public async Task GetAllProducts_ReturnsOkWithDtos()
