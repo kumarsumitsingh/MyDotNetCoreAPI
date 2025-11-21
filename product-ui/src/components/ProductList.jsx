@@ -10,10 +10,7 @@ function ProductList() {
     setProducts(response.data);
   };
 
-  const handleDelete = async (id) => {
-    await deleteProduct(id);
-    loadData();
-  };
+  
 
   useEffect(() => {
     loadData();

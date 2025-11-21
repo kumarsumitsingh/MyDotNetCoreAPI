@@ -18,6 +18,8 @@ function ProductManager() {
     }
   };
 
+  
+
   useEffect(() => {
     fetchProducts();
   }, []);
